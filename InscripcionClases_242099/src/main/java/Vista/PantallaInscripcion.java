@@ -232,7 +232,7 @@ public class PantallaInscripcion extends javax.swing.JFrame {
     
     public void actualizarInterfaz(int seleccionados, int restantes, double total) {
     labelCursosSeleccionados.setText(seleccionados + " Seleccionados");
-    labelNumCursos.setText(restantes + " Cursos"); // Ahora sí baja el número
+    labelNumCursos.setText(restantes + " Cursos"); 
     labelTotalPagar.setText("$" + String.format("%.2f", total));
 }
 
@@ -268,7 +268,7 @@ public class PantallaInscripcion extends javax.swing.JFrame {
         labelNumCursos.setText("8 Cursos");
         panelFichaPago.removeAll();
         cargarCatalogo();
-        configuracionManual(); // Re-aplicamos layout para evitar pantalla blanca
+        configuracionManual();
         this.revalidate();
         this.repaint();
     }
@@ -281,19 +281,18 @@ public class PantallaInscripcion extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
 
-        // Forzamos el Layout Nulo para control absoluto
         getContentPane().setLayout(null);
         PanelGeneralInscripciones.setLayout(null);
         PanelGeneralInscripciones.setBounds(0, 0, 1024, 760);
         
-        // Títulos y etiquetas (Ubicación manual)
+        // Títulos y etiquetas 
         PanelTitulo.setBounds(0, 0, 1024, 80);
-        labelTitulo3.setBounds(30, 85, 200, 25); // "Cursos disponibles"
+        labelTitulo3.setBounds(30, 85, 200, 25); // Cursos disponibles
         labelNumCursos.setBounds(400, 85, 100, 25);
-        labelTitulo4.setBounds(515, 85, 200, 25); // "Mis cursos inscritos"
+        labelTitulo4.setBounds(515, 85, 200, 25); // Mis cursos inscritos
         labelCursosSeleccionados.setBounds(850, 85, 150, 25);
 
-        // Paneles Azules (División exacta 50/50)
+        // Paneles Azules
         panelCursos.setBackground(new java.awt.Color(204, 255, 255));
         panelCursos.setBounds(30, 115, 470, 430); 
         panelCursos.setLayout(new java.awt.GridLayout(8, 1, 0, 5));
@@ -302,7 +301,7 @@ public class PantallaInscripcion extends javax.swing.JFrame {
         panelFichaPago.setBounds(515, 115, 470, 430); 
         panelFichaPago.setLayout(new java.awt.GridLayout(10, 1, 0, 2));
 
-        // Panel de control inferior
+        // Panel de control
         jPanel1.setBounds(30, 560, 955, 130);
         jPanel1.setLayout(null);
         labelTitulo5.setBounds(350, 10, 150, 25);
@@ -336,16 +335,9 @@ public class PantallaInscripcion extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            // 1. Instanciar esta misma pantalla
             PantallaInscripcion vista = new PantallaInscripcion();
-
-            // 2. Crear el controlador pasandole la vista
             Control.InscripcionController control = new Control.InscripcionController(vista);
-
-            // 3. Conectar el controlador a la vista para que cargue los cursos
             vista.inicializarConControlador(control);
-
-            // 4. Hacerla visible
             vista.setVisible(true);
         });
     }

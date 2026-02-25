@@ -33,10 +33,10 @@ public class Inscripcion {
     }
     
     public void prepararDatosComprobante() {
-        // Generamos los datos dinámicos solicitados
+        // Generamos datos dinamicos 
     String id = "ID-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     String fecha = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-    this.setMetadatos(id, fecha); // Usamos tu método existente
+    this.setMetadatos(id, fecha); // Usamos tu metodo existente
     }
     
     public List<Curso> getListaCursosInscritos() { return listaCursosInscritos; }

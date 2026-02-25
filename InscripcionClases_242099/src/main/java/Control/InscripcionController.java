@@ -33,16 +33,15 @@ public class InscripcionController {
     }
 
     public void finalizarProceso() {
-        inscripcion.prepararDatosComprobante(); // Ahora el método existe
+        inscripcion.prepararDatosComprobante(); 
 
         PantallaFichaPago fichaPanel = new PantallaFichaPago();
         fichaPanel.generarRecibo(inscripcion);
 
-        // Configuramos el botón Nueva Inscripción
+        // configuramos el boton nueva inscripcion
         fichaPanel.setAccionReinicio(e -> reiniciarFlujo());
 
-        // Intercambio de paneles inmediato
-        ins.getContentPane().removeAll();
+        // intercambio de paneles inmediato
         ins.setContentPane(fichaPanel);
         ins.revalidate();
         ins.repaint();

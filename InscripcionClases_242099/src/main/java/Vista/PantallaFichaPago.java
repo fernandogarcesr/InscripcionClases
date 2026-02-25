@@ -188,21 +188,20 @@ public class PantallaFichaPago extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void generarRecibo(Model.Inscripcion datos) {
-     // 1. Configuración base del panel (el contenedor de todo)
-    this.setLayout(null);
-    this.setBackground(java.awt.Color.WHITE);
+    this.setLayout(new java.awt.BorderLayout());
     this.setPreferredSize(new java.awt.Dimension(1024, 760));
 
-    // 2. Título Superior
+    PanelGeneralInscripciones.setLayout(null);
+    PanelGeneralInscripciones.setBounds(0, 0, 1024, 760);
+    PanelGeneralInscripciones.setBackground(java.awt.Color.WHITE);
+
     PanelTitulo.setBounds(0, 0, 1024, 80);
     labelTitulo1.setText("Ficha de pago - ITSON");
-    labelTitulo1.setBounds(313, 20, 397, 40); // Centrado manual
+    labelTitulo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     
-    // 3. Etiquetas de encabezado (CURSO y COSTO)
-    labelTitulo3.setBounds(80, 90, 100, 30); // Curso
-    labelTitulo4.setBounds(860, 90, 100, 30); // Costo
+    labelTitulo3.setBounds(80, 90, 100, 30);
+    labelTitulo4.setBounds(860, 90, 100, 30); 
 
-    // 4. Panel Azul de Cursos (Centro)
     panelFichaPago.setBackground(new java.awt.Color(204, 255, 255));
     panelFichaPago.setBounds(80, 125, 860, 340);
     panelFichaPago.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
@@ -213,13 +212,12 @@ public class PantallaFichaPago extends javax.swing.JPanel {
         lbl.setFont(new java.awt.Font("Segoe UI", 1, 18));
         panelFichaPago.add(lbl);
     }
-    
-    // 5. Panel de Información Final (jPanel1)
+
     jPanel1.setLayout(null);
     jPanel1.setBackground(java.awt.Color.WHITE);
     jPanel1.setBounds(80, 470, 860, 240);
 
-    labelTitulo5.setBounds(0, 10, 150, 30); // "TOTAL FINAL"
+    labelTitulo5.setBounds(0, 10, 150, 30); // TOTAL FINAL
     labelTotalFinalPagar.setBounds(740, 10, 120, 30);
     labelTotalFinalPagar.setText("$" + String.format("%.2f", datos.getMontoTotal()));
     labelTotalFinalPagar.setForeground(new java.awt.Color(51, 51, 255));
@@ -232,19 +230,20 @@ public class PantallaFichaPago extends javax.swing.JPanel {
 
     btnNuevaInscripcion.setBounds(320, 110, 220, 45);
 
-    // 6. Forzar agregado al contenedor principal para evitar pantalla blanca
-    this.add(PanelTitulo);
-    this.add(labelTitulo3);
-    this.add(labelTitulo4);
-    this.add(panelFichaPago);
-    this.add(jPanel1);
+    // Agregar todo al PanelGeneralInscripciones
+    PanelGeneralInscripciones.add(PanelTitulo);
+    PanelGeneralInscripciones.add(labelTitulo3);
+    PanelGeneralInscripciones.add(labelTitulo4);
+    PanelGeneralInscripciones.add(panelFichaPago);
+    PanelGeneralInscripciones.add(jPanel1);
+
+    this.add(PanelGeneralInscripciones);
     
     this.revalidate();
     this.repaint();
     }
 
     public void setAccionReinicio(java.awt.event.ActionListener accion) {
-        // Quitamos cualquier listener previo para evitar que se cierre la app
     for(java.awt.event.ActionListener al : btnNuevaInscripcion.getActionListeners()) {
         btnNuevaInscripcion.removeActionListener(al);
     }
