@@ -33,24 +33,19 @@ public class InscripcionController {
     }
 
     public void finalizarProceso() {
-        inscripcion.setMetadatos(
-        "ID-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase(),
-        java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
-    );
+       inscripcion.prepararDatosComprobante(); // Ahora el método existe
 
-    javax.swing.JFrame frameFicha = new javax.swing.JFrame("Ficha de Pago - ITSON");
     PantallaFichaPago fichaPanel = new PantallaFichaPago();
-    
     fichaPanel.generarRecibo(inscripcion);
     
-    // IMPORTANTE: Hacer que el frame de la ficha sea del mismo tamaño que la principal
-    frameFicha.setSize(1024, 720); 
-    frameFicha.add(fichaPanel);
-    frameFicha.setResizable(false);
-    frameFicha.setLocationRelativeTo(null);
-    
-    ins.setVisible(false);
-    frameFicha.setVisible(true);
+    // Configuramos el botón Nueva Inscripción
+    fichaPanel.setAccionReinicio(e -> reiniciarFlujo());
+
+    // Intercambio de paneles inmediato
+    ins.getContentPane().removeAll();
+    ins.getContentPane().add(fichaPanel);
+    ins.revalidate();
+    ins.repaint();
     }
 
     private void reiniciarFlujo() {

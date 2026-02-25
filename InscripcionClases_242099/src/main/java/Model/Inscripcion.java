@@ -1,8 +1,11 @@
 
 package Model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -27,6 +30,13 @@ public class Inscripcion {
     public void setMetadatos(String id, String fecha) {
         this.idTransaccion = id;
         this.fechaEmision = fecha;
+    }
+    
+    public void prepararDatosComprobante() {
+        // Generamos los datos dinámicos solicitados
+    String id = "ID-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    String fecha = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+    this.setMetadatos(id, fecha); // Usamos tu método existente
     }
     
     public List<Curso> getListaCursosInscritos() { return listaCursosInscritos; }

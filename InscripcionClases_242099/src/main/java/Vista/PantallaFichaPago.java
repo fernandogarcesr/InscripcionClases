@@ -188,22 +188,33 @@ public class PantallaFichaPago extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void generarRecibo(Model.Inscripcion datos) {
-       panelFichaPago.setLayout(new java.awt.GridLayout(0, 1, 0, 10));
-    panelFichaPago.removeAll();
+     this.setLayout(null);
+    this.setBackground(java.awt.Color.WHITE);
+    
+    PanelGeneralInscripciones.setLayout(null);
+    PanelGeneralInscripciones.setBounds(0, 0, 1024, 760);
+    PanelGeneralInscripciones.setBackground(java.awt.Color.WHITE);
+
+    // El panel azul de la ficha ahora es central y grande
     panelFichaPago.setBackground(new java.awt.Color(204, 255, 255));
+    panelFichaPago.setBounds(80, 120, 860, 380);
+    panelFichaPago.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+    panelFichaPago.removeAll();
 
     for (Model.Curso c : datos.getListaCursosInscritos()) {
-        javax.swing.JLabel lbl = new javax.swing.JLabel("  " + c.getNombre() + " ................. $" + c.getCosto());
-        lbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // Fuente más grande
+        javax.swing.JLabel lbl = new javax.swing.JLabel("  " + c.getNombre() + " .......................................... $" + c.getCosto());
+        lbl.setFont(new java.awt.Font("Segoe UI", 1, 18));
         panelFichaPago.add(lbl);
     }
     
-    labelTotalFinalPagar.setText("$" + String.format("%.2f", datos.getMontoTotal()));
-    labelFechaEmision.setText("Fecha de emision: " + datos.getFechaEmision());
-    labelIdTransaccion.setText("ID de transaccion: " + datos.getIdTransaccion());
+    // Etiquetas de abajo centradas
+    labelTotalFinalPagar.setBounds(750, 510, 200, 30);
+    labelFechaEmision.setBounds(380, 550, 400, 20);
+    labelIdTransaccion.setBounds(380, 575, 400, 20);
+    btnNuevaInscripcion.setBounds(400, 610, 220, 40);
     
-    panelFichaPago.revalidate();
-    panelFichaPago.repaint();
+    this.revalidate();
+    this.repaint();
     }
 
     public void setAccionReinicio(java.awt.event.ActionListener accion) {

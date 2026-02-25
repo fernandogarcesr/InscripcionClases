@@ -16,24 +16,36 @@ public class PantallaInscripcion extends javax.swing.JFrame {
      */
     public PantallaInscripcion() {
         initComponents();
-        this.setSize(1024, 720); // Tamaño estático basado en tu captura
+        this.setSize(1024, 760); // Tamaño total del frame
     this.setResizable(false);
     this.setLocationRelativeTo(null);
 
-    // Ajustamos el fondo general
-    PanelGeneralInscripciones.setBackground(java.awt.Color.WHITE);
+    // IMPORTANTE: El panel general debe usar null layout pero no debe tapar a los demás
+    PanelGeneralInscripciones.setLayout(null);
+    PanelGeneralInscripciones.setBounds(0, 0, 1024, 760);
     
-    // Configuramos los paneles azules para que tengan su color y tamaño fijo
-    panelCursos.setBackground(new java.awt.Color(204, 255, 255));
-    panelFichaPago.setBackground(new java.awt.Color(204, 255, 255));
-    
-    // Agregamos un margen para que no toquen los bordes de la ventana
-    panelCursos.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    panelFichaPago.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    // Títulos y Labels (Posicionamiento manual para que no se muevan)
+    PanelTitulo.setBounds(0, 0, 1024, 80);
+    labelTitulo3.setBounds(30, 85, 200, 25); // "Cursos disponibles"
+    labelNumCursos.setBounds(400, 85, 100, 25);
+    labelTitulo4.setBounds(515, 85, 200, 25); // "Mis cursos inscritos"
+    labelCursosSeleccionados.setBounds(850, 85, 150, 25);
 
-    // Forzamos el Layout de los paneles para que los elementos fluyan hacia abajo
-    panelCursos.setLayout(new java.awt.GridLayout(0, 1, 0, 10)); 
-    panelFichaPago.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+    // Paneles Azules (Divididos exactamente a la mitad)
+    panelCursos.setBackground(new java.awt.Color(204, 255, 255));
+    panelCursos.setBounds(30, 115, 470, 430); 
+    panelCursos.setLayout(new java.awt.GridLayout(8, 1, 0, 5));
+
+    panelFichaPago.setBackground(new java.awt.Color(204, 255, 255));
+    panelFichaPago.setBounds(515, 115, 470, 430); 
+    panelFichaPago.setLayout(new java.awt.GridLayout(10, 1, 0, 0));
+
+    // Panel de abajo (Total y Botón)
+    jPanel1.setBounds(30, 550, 955, 150);
+    jPanel1.setLayout(null);
+    labelTitulo5.setBounds(350, 10, 150, 25); // "Subtotal a pagar"
+    labelTotalPagar.setBounds(600, 10, 100, 25);
+    btnFinalizarFicha.setBounds(350, 50, 300, 40);
     }
 
     /**
