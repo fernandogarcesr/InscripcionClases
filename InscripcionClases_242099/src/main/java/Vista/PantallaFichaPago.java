@@ -188,30 +188,56 @@ public class PantallaFichaPago extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void generarRecibo(Model.Inscripcion datos) {
-     this.setLayout(null);
+     // 1. Configuración base del panel (el contenedor de todo)
+    this.setLayout(null);
     this.setBackground(java.awt.Color.WHITE);
-    
-    PanelGeneralInscripciones.setLayout(null);
-    PanelGeneralInscripciones.setBounds(0, 0, 1024, 760);
-    PanelGeneralInscripciones.setBackground(java.awt.Color.WHITE);
+    this.setPreferredSize(new java.awt.Dimension(1024, 760));
 
-    // El panel azul de la ficha ahora es central y grande
+    // 2. Título Superior
+    PanelTitulo.setBounds(0, 0, 1024, 80);
+    labelTitulo1.setText("Ficha de pago - ITSON");
+    labelTitulo1.setBounds(313, 20, 397, 40); // Centrado manual
+    
+    // 3. Etiquetas de encabezado (CURSO y COSTO)
+    labelTitulo3.setBounds(80, 90, 100, 30); // Curso
+    labelTitulo4.setBounds(860, 90, 100, 30); // Costo
+
+    // 4. Panel Azul de Cursos (Centro)
     panelFichaPago.setBackground(new java.awt.Color(204, 255, 255));
-    panelFichaPago.setBounds(80, 120, 860, 380);
+    panelFichaPago.setBounds(80, 125, 860, 340);
     panelFichaPago.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
     panelFichaPago.removeAll();
 
     for (Model.Curso c : datos.getListaCursosInscritos()) {
-        javax.swing.JLabel lbl = new javax.swing.JLabel("  " + c.getNombre() + " .......................................... $" + c.getCosto());
+        javax.swing.JLabel lbl = new javax.swing.JLabel("  " + c.getNombre() + " ..................................................... $" + c.getCosto());
         lbl.setFont(new java.awt.Font("Segoe UI", 1, 18));
         panelFichaPago.add(lbl);
     }
     
-    // Etiquetas de abajo centradas
-    labelTotalFinalPagar.setBounds(750, 510, 200, 30);
-    labelFechaEmision.setBounds(380, 550, 400, 20);
-    labelIdTransaccion.setBounds(380, 575, 400, 20);
-    btnNuevaInscripcion.setBounds(400, 610, 220, 40);
+    // 5. Panel de Información Final (jPanel1)
+    jPanel1.setLayout(null);
+    jPanel1.setBackground(java.awt.Color.WHITE);
+    jPanel1.setBounds(80, 470, 860, 240);
+
+    labelTitulo5.setBounds(0, 10, 150, 30); // "TOTAL FINAL"
+    labelTotalFinalPagar.setBounds(740, 10, 120, 30);
+    labelTotalFinalPagar.setText("$" + String.format("%.2f", datos.getMontoTotal()));
+    labelTotalFinalPagar.setForeground(new java.awt.Color(51, 51, 255));
+
+    labelFechaEmision.setBounds(280, 50, 400, 20);
+    labelFechaEmision.setText("Fecha de emision: " + datos.getFechaEmision());
+    
+    labelIdTransaccion.setBounds(280, 75, 400, 20);
+    labelIdTransaccion.setText("ID de transaccion: " + datos.getIdTransaccion());
+
+    btnNuevaInscripcion.setBounds(320, 110, 220, 45);
+
+    // 6. Forzar agregado al contenedor principal para evitar pantalla blanca
+    this.add(PanelTitulo);
+    this.add(labelTitulo3);
+    this.add(labelTitulo4);
+    this.add(panelFichaPago);
+    this.add(jPanel1);
     
     this.revalidate();
     this.repaint();

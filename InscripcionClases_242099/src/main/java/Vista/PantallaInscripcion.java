@@ -1,5 +1,8 @@
 package Vista;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Fernando garces
@@ -16,38 +19,10 @@ public class PantallaInscripcion extends javax.swing.JFrame {
      */
     public PantallaInscripcion() {
         initComponents();
-        this.setSize(1024, 760); // Tamaño total del frame
-    this.setResizable(false);
-    this.setLocationRelativeTo(null);
-
-    // IMPORTANTE: El panel general debe usar null layout pero no debe tapar a los demás
-    PanelGeneralInscripciones.setLayout(null);
-    PanelGeneralInscripciones.setBounds(0, 0, 1024, 760);
-    
-    // Títulos y Labels (Posicionamiento manual para que no se muevan)
-    PanelTitulo.setBounds(0, 0, 1024, 80);
-    labelTitulo3.setBounds(30, 85, 200, 25); // "Cursos disponibles"
-    labelNumCursos.setBounds(400, 85, 100, 25);
-    labelTitulo4.setBounds(515, 85, 200, 25); // "Mis cursos inscritos"
-    labelCursosSeleccionados.setBounds(850, 85, 150, 25);
-
-    // Paneles Azules (Divididos exactamente a la mitad)
-    panelCursos.setBackground(new java.awt.Color(204, 255, 255));
-    panelCursos.setBounds(30, 115, 470, 430); 
-    panelCursos.setLayout(new java.awt.GridLayout(8, 1, 0, 5));
-
-    panelFichaPago.setBackground(new java.awt.Color(204, 255, 255));
-    panelFichaPago.setBounds(515, 115, 470, 430); 
-    panelFichaPago.setLayout(new java.awt.GridLayout(10, 1, 0, 0));
-
-    // Panel de abajo (Total y Botón)
-    jPanel1.setBounds(30, 550, 955, 150);
-    jPanel1.setLayout(null);
-    labelTitulo5.setBounds(350, 10, 150, 25); // "Subtotal a pagar"
-    labelTotalPagar.setBounds(600, 10, 100, 25);
-    btnFinalizarFicha.setBounds(350, 50, 300, 40);
+        configuracionManual();
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -262,50 +237,77 @@ public class PantallaInscripcion extends javax.swing.JFrame {
 }
 
     private void cargarCatalogo() {
-       // Cada curso ocupará una fila completa dentro de su mitad
-    panelCursos.setLayout(new java.awt.GridLayout(8, 1, 5, 5)); 
-    panelFichaPago.setLayout(new java.awt.GridLayout(10, 1, 5, 5)); // Espacio para 8 cursos + margen
-    
-    Model.Curso[] cursos = {
-        new Model.Curso("Arquitectura de software", 450.00),
-        new Model.Curso("Aplicaciones web", 500.00),
-        new Model.Curso("Pruebas de software", 450.00),
-        new Model.Curso("Innovacion tecnologica", 400.00),
-        new Model.Curso("Axiologia para la profesion", 400.00),
-        new Model.Curso("Sistemas empotrados", 450.00),
-        new Model.Curso("Sistemas distribuidos", 550.00),
-        new Model.Curso("Analisis de algoritmos", 500.00)
-    };
+        panelCursos.removeAll();
+        Model.Curso[] cursos = {
+            new Model.Curso("Arquitectura de software", 450.00),
+            new Model.Curso("Aplicaciones web", 500.00),
+            new Model.Curso("Pruebas de software", 450.00),
+            new Model.Curso("Innovacion tecnologica", 400.00),
+            new Model.Curso("Axiologia para la profesion", 400.00),
+            new Model.Curso("Sistemas empotrados", 450.00),
+            new Model.Curso("Sistemas distribuidos", 550.00),
+            new Model.Curso("Analisis de algoritmos", 500.00)
+        };
 
-    for (Model.Curso c : cursos) {
-        javax.swing.JButton btn = new javax.swing.JButton(c.getNombre() + " $" + c.getCosto() + " [Inscribir]");
-        btn.setFont(new java.awt.Font("Segoe UI", 1, 12));
-        btn.addActionListener(e -> {
-            controller.seleccionarCurso(c);
-            javax.swing.JLabel lbl = new javax.swing.JLabel("  • " + c.getNombre() + "  $" + c.getCosto());
-            lbl.setFont(new java.awt.Font("Segoe UI", 1, 13));
-            panelFichaPago.add(lbl);
-            btn.setEnabled(false); // En lugar de desaparecer, se deshabilita para mantener el layout
-            panelFichaPago.revalidate();
-            panelFichaPago.repaint();
-        });
-        panelCursos.add(btn);
-    }
+        for (Model.Curso c : cursos) {
+            JButton btn = new JButton(c.getNombre() + " $" + c.getCosto() + " [Inscribir]");
+            btn.addActionListener(e -> {
+                controller.seleccionarCurso(c);
+                panelFichaPago.add(new JLabel("  • " + c.getNombre() + "  $" + c.getCosto()));
+                btn.setEnabled(false); // No desaparece, se deshabilita para no mover el layout
+                panelFichaPago.revalidate();
+            });
+            panelCursos.add(btn);
+        }
+    
     }
 
     public void limpiarParaNuevaInscripcion() {
-        seleccionadosCount = 0;
         labelCursosSeleccionados.setText("0 Seleccionados");
         labelTotalPagar.setText("$0.00");
+        labelNumCursos.setText("8 Cursos");
         panelFichaPago.removeAll();
-        panelCursos.removeAll();
         cargarCatalogo();
-        panelCursos.revalidate();
+        configuracionManual(); // Re-aplicamos layout para evitar pantalla blanca
+        this.revalidate();
+        this.repaint();
     }
 
     public void actualizarTotal(double t) {
         labelTotalPagar.setText("$" + String.format("%.2f", t));
     }
+    private void configuracionManual() {
+        this.setSize(1024, 760);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+
+        // Forzamos el Layout Nulo para control absoluto
+        getContentPane().setLayout(null);
+        PanelGeneralInscripciones.setLayout(null);
+        PanelGeneralInscripciones.setBounds(0, 0, 1024, 760);
+        
+        // Títulos y etiquetas (Ubicación manual)
+        PanelTitulo.setBounds(0, 0, 1024, 80);
+        labelTitulo3.setBounds(30, 85, 200, 25); // "Cursos disponibles"
+        labelNumCursos.setBounds(400, 85, 100, 25);
+        labelTitulo4.setBounds(515, 85, 200, 25); // "Mis cursos inscritos"
+        labelCursosSeleccionados.setBounds(850, 85, 150, 25);
+
+        // Paneles Azules (División exacta 50/50)
+        panelCursos.setBackground(new java.awt.Color(204, 255, 255));
+        panelCursos.setBounds(30, 115, 470, 430); 
+        panelCursos.setLayout(new java.awt.GridLayout(8, 1, 0, 5));
+
+        panelFichaPago.setBackground(new java.awt.Color(204, 255, 255));
+        panelFichaPago.setBounds(515, 115, 470, 430); 
+        panelFichaPago.setLayout(new java.awt.GridLayout(10, 1, 0, 2));
+
+        // Panel de control inferior
+        jPanel1.setBounds(30, 560, 955, 130);
+        jPanel1.setLayout(null);
+        labelTitulo5.setBounds(350, 10, 150, 25);
+        labelTotalPagar.setBounds(520, 10, 150, 25);
+        btnFinalizarFicha.setBounds(320, 50, 320, 45);}
 
     private void btnFinalizarFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarFichaActionPerformed
         controller.finalizarProceso(); // Llama al metodo del controlador
@@ -348,6 +350,9 @@ public class PantallaInscripcion extends javax.swing.JFrame {
         });
     }
 
+    public javax.swing.JPanel getPanelGeneralInscripciones() {
+    return PanelGeneralInscripciones;
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelGeneralInscripciones;
     private javax.swing.JPanel PanelTitulo;

@@ -33,24 +33,27 @@ public class InscripcionController {
     }
 
     public void finalizarProceso() {
-       inscripcion.prepararDatosComprobante(); // Ahora el método existe
+        inscripcion.prepararDatosComprobante(); // Ahora el método existe
 
-    PantallaFichaPago fichaPanel = new PantallaFichaPago();
-    fichaPanel.generarRecibo(inscripcion);
-    
-    // Configuramos el botón Nueva Inscripción
-    fichaPanel.setAccionReinicio(e -> reiniciarFlujo());
+        PantallaFichaPago fichaPanel = new PantallaFichaPago();
+        fichaPanel.generarRecibo(inscripcion);
 
-    // Intercambio de paneles inmediato
-    ins.getContentPane().removeAll();
-    ins.getContentPane().add(fichaPanel);
-    ins.revalidate();
-    ins.repaint();
+        // Configuramos el botón Nueva Inscripción
+        fichaPanel.setAccionReinicio(e -> reiniciarFlujo());
+
+        // Intercambio de paneles inmediato
+        ins.getContentPane().removeAll();
+        ins.setContentPane(fichaPanel);
+        ins.revalidate();
+        ins.repaint();
     }
 
     private void reiniciarFlujo() {
         this.inscripcion = new Model.Inscripcion();
+        ins.getContentPane().removeAll(); // Limpiamos la ficha
+        ins.getContentPane().add(ins.getPanelGeneralInscripciones()); // Regresamos el panel original
         ins.limpiarParaNuevaInscripcion();
-        ins.setVisible(true);
+        ins.revalidate();
+        ins.repaint();
     }
 }
